@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using TagLib;
 
 namespace MP3Rename
 {
@@ -196,7 +189,7 @@ namespace MP3Rename
                         sSongTitle = dataGridView1["filename", i].Value.ToString();
                     }
                     sSongTitle = rgx.Replace(sSongTitle, "");
-                    System.IO.File.Move(dataGridView1["path", i].Value.ToString(), sNewFolderPath + @"\" + i + ". " + sSongTitle + ".mp3");
+                    File.Move(dataGridView1["path", i].Value.ToString(), sNewFolderPath + @"\" + i + ". " + sSongTitle + ".mp3");
                     dataGridView1.Rows[i].DefaultCellStyle.BackColor = Color.Green;
                 }
             }
