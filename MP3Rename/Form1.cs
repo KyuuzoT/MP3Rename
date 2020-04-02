@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -90,9 +91,20 @@ namespace MP3Rename
             try
             {
                 TagLib.File file = TagLib.File.Create(f.FullName); //Открытие файла
-                sSongTitle = f.Name.ToString();
+                Encoding win1252 = Encoding.GetEncoding("Windows-1252"); //Западно-Европейская кодировка
+                Encoding win1251 = Encoding.GetEncoding("Windows-1251"); //Кириллица
+                byte[] win1252Bytes;
+                byte[] win1251Bytes;
+                
+                win1252Bytes = win1252.GetBytes(f.Name.ToString());
+                win1251Bytes = Encoding.Convert(win1252, win1251, win1252Bytes);
+                sSongTitle = win1251Bytes.ToString();
+
                 sAuthor = file.Tag.FirstPerformer;
-                sSongName = file.Tag.Title;
+
+                win1252Bytes = win1252.GetBytes(file.Tag.Title);
+                win1251Bytes = Encoding.Convert(win1252, win1251, win1252Bytes);
+                sSongName = win1251Bytes.ToString();
                 uiBitRate = file.Tag.BeatsPerMinute;
                 sSongPath = f.FullName.ToString();
                 dataGridView1.Rows.Add(sSongTitle, sAuthor, sSongName, uiBitRate, sSongPath); //Добавляем в список
